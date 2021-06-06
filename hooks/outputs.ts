@@ -17,10 +17,7 @@ interface OutputAction {
 
 const useOutputs = () => {
   const [outputs, setOutputs]: [outputs: Outputs, setOutputs: Function] =
-    useState({
-      sum: 'a+b',
-      difference: 'c - a',
-    });
+    useState({});
 
   const addOutput = (input: Outputs) => {
     setOutputs(Object.assign({}, outputs, input));

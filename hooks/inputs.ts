@@ -16,10 +16,9 @@ interface InputAction {
 }
 
 const useInputs = () => {
-  const [inputs, setInputs]: [inputs: Inputs, setInputs: Function] = useState({
-    a: '120',
-    b: '100',
-  });
+  const [inputs, setInputs]: [inputs: Inputs, setInputs: Function] = useState(
+    {}
+  );
 
   const addInput = (input: Inputs) => {
     setInputs(Object.assign({}, inputs, input));
@@ -42,6 +41,7 @@ const useInputs = () => {
         setInputs({});
         break;
       default:
+        console.log('default');
         break;
     }
   };
