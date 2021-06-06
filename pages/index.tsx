@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div>
+    <div className="mb-24">
       <Head>
         <title>VCalc - Design your calculator</title>
       </Head>

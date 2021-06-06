@@ -2,6 +2,8 @@ import { Inputs } from '@/hooks/inputs';
 import { Outputs } from '@/hooks/outputs';
 
 interface HashObject {
+  title?: string;
+  desc?: string;
   inputs: Inputs;
   outputs: Outputs;
 }
