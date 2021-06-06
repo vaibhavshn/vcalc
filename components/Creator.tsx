@@ -15,12 +15,6 @@ export default function Creator() {
   } = useCreator();
 
   useEffect(() => {
-    dispatchInputs({ type: InputActions.clear });
-    dispatchInputs({
-      type: InputActions.add,
-      data: { weight: 100, rate: 200 },
-    });
-    dispatchOutputs({ type: OutputActions.clear });
     dispatchOutputs({
       type: OutputActions.add,
       data: { sum: 'a + b', difference: '1 + (a + b) / (a-b)' },

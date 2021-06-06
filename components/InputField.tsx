@@ -11,28 +11,43 @@ const InputField = ({
 }) => {
   const handleSubmit = (e: FormEvent) => {
     if (e) e.preventDefault();
-    const target = e.target as typeof e.target & {
-      inputText: { value: string };
-    };
-    const field = camelCase(target.inputText.value);
+
+    const inputText = (
+      e.target as typeof e.target & {
+        inputText: { value: string; scrollIntoView: Function };
+      }
+    )['inputText'];
+
+    const field = camelCase(inputText.value);
+
     if (variableExists(field)) {
       alert(
         `The field variable name "${field}" is already in use, please try again.`
       );
       return;
     }
+
     dispatcher({ type: InputActions.add, data: { [field]: '' } });
 
-    target.inputText.value = '';
+    inputText.value = '';
+    setTimeout(() => {
+      inputText.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+
     return false;
   };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="" onSubmit={handleSubmit}>
+      <label htmlFor="inputText" className="text-xs text-gray-500">
+        Add field
+      </label>
       <input
         type="text"
+        id="inputText"
         name="inputText"
         placeholder="Add Field"
-        className="w-full h-10 px-3 border-2"
+        className="w-full h-10 px-3 text-sm border border-gray-200 rounded-sm"
       />
     </form>
   );
