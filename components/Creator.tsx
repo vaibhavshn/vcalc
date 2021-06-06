@@ -26,10 +26,18 @@ export default function Creator() {
     return { title, desc };
   };
 
+  const isEmpty = () => {
+    return (
+      Object.keys(inputs).length === 0 || Object.keys(outputs).length === 0
+    );
+  };
+
   const preview = () => {
     const metaData = getMetaData();
     const hash = getHash({ ...metaData, inputs, outputs });
-    window.open(`/calc#${hash}`, '_blank');
+    if (isEmpty())
+      alert("The calculator fields aren't loaded properly, try again.");
+    else window.open(`/calc#${hash}`, '_blank');
   };
 
   return (

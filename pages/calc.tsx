@@ -1,44 +1,11 @@
-import { FormEvent, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CalculatorIcon, SunIcon } from '@heroicons/react/outline';
 
-import { HashObject, getHashObject } from '@/lib/translate';
 import { formatField } from '@/lib/format';
-import { Inputs } from '@/hooks/inputs';
-import { Outputs } from '@/hooks/outputs';
-import Calc, { CalcResult } from '@/lib/calc';
+import useCalc from '@/hooks/calc';
 
 export default function CalcPage() {
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const [hash, setHash] = useState<HashObject | null>(null);
-
-  const [results, setResults] =
-    useState<Record<string, CalcResult> | null>(null);
-
-  const calc = new Calc();
-
-  useEffect(() => {
-    const hash = window.location.hash.substr(1);
-    if (hash != '') {
-      setHash(getHashObject(hash));
-    }
-    setLoaded(true);
-  }, []);
-
-  const calculate = (inputs: Inputs, outputs: Outputs) => {
-    setResults(calc.calculate(inputs, outputs));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    if (e) e.preventDefault();
-    if (!hash) return false;
-    const inputs = hash.inputs;
-    const outputs = hash.outputs;
-
-    calculate(inputs, outputs);
-
-    return false;
-  };
+  const { hash, loaded, results, setHash, handleSubmit } = useCalc();
 
   return (
     <div>
@@ -66,7 +33,7 @@ export default function CalcPage() {
         <motion.main
           layout
           key="calculator"
-          initial={{ y: 100, opacity: 0 }}
+          initial={{ y: 140, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
         >
           <div
@@ -91,51 +58,55 @@ export default function CalcPage() {
                 </div>
               </div>
             )}
-            {loaded && hash && 'inputs' in hash && (
-              <form
-                className="flex flex-col space-y-3 p-4 border"
-                onSubmit={handleSubmit}
-              >
-                {Object.entries(hash.inputs).map(([field, value]) => (
-                  <div className="flex flex-col" key={field}>
-                    <label htmlFor="">{formatField(field)}</label>
-                    <input
-                      type="text"
-                      value={value}
-                      placeholder={formatField(field)}
-                      onChange={(e) => {
-                        const inputs = Object.assign({}, hash.inputs, {
-                          [field]: e.target.value,
-                        });
-                        setHash(Object.assign({}, hash, { inputs }));
-                      }}
-                    />
-                  </div>
-                ))}
-                <button className="py-2 font-light uppercase border">
-                  Calculate
-                </button>
-              </form>
-            )}
-            {loaded && results && (
-              <div className="p-4 bg-gradient-to-br from-gray-900 to-gray-700 text-gray-200 space-y-3">
-                {Object.entries(results).map(
-                  ([field, data]: [field: string, data: any]) => (
-                    <div key={field}>
-                      <div className="text-sm font-light">
-                        {formatField(field)}
-                      </div>
-                      <div
-                        className={`text-lg font-bold ${
-                          data.error ? 'text-red-500' : 'text-gray-100'
-                        }`}
-                      >
-                        {data.error ?? data.value}
-                      </div>
+            {hash && 'inputs' in hash && (
+              <motion.div layout key="calculatorForm">
+                <form
+                  className="flex flex-col h-full space-y-3 p-4 border bg-white"
+                  onSubmit={handleSubmit}
+                >
+                  {Object.entries(hash.inputs).map(([field, value]) => (
+                    <div className="flex flex-col" key={field}>
+                      <label htmlFor="">{formatField(field)}</label>
+                      <input
+                        type="text"
+                        value={value}
+                        placeholder={formatField(field)}
+                        onChange={(e) => {
+                          const inputs = Object.assign({}, hash.inputs, {
+                            [field]: e.target.value,
+                          });
+                          setHash(Object.assign({}, hash, { inputs }));
+                        }}
+                      />
                     </div>
-                  )
-                )}
-              </div>
+                  ))}
+                  <button className="py-2 font-light uppercase border">
+                    Calculate
+                  </button>
+                </form>
+              </motion.div>
+            )}
+            {results && (
+              <motion.div layout key="calculatorResult">
+                <div className="h-full p-4 bg-gradient-to-br from-gray-900 to-gray-700 text-gray-200 space-y-3">
+                  {Object.entries(results).map(
+                    ([field, data]: [field: string, data: any]) => (
+                      <div key={field}>
+                        <div className="text-sm font-light">
+                          {formatField(field)}
+                        </div>
+                        <div
+                          className={`h-8 text-lg font-bold ${
+                            data.error ? 'text-red-500' : 'text-gray-100'
+                          }`}
+                        >
+                          {data.error ?? data.value}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </motion.div>
             )}
           </div>
         </motion.main>
