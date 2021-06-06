@@ -1,25 +1,25 @@
 import { motion } from 'framer-motion';
 import { CollectionIcon } from '@heroicons/react/outline';
 
-import InputField from '@/components/InputField';
-import InputCard from '@/components/InputCard';
-import { Inputs } from '@/hooks/inputs';
+import OutputCard from '@/components/OutputCard';
+import OutputField from '@/components/OutputField';
+import { Outputs } from '@/hooks/outputs';
 
-const InputsView = ({
-  inputs,
+const OutputsView = ({
+  outputs,
   dispatcher,
   variableExists,
 }: {
-  inputs: Inputs;
+  outputs: Outputs;
   dispatcher: Function;
   variableExists: Function;
 }) => {
   return (
     <div className="flex flex-col w-full max-w-md mx-auto space-y-3">
-      {Object.keys(inputs).length === 0 && (
+      {Object.keys(outputs).length === 0 && (
         <motion.div
           layout
-          key="emptyInputs"
+          key="emptyOutputs"
           initial={{ scale: 0.5, opacity: 0.5 }}
           animate={{ scale: 1.0, opacity: 1.0 }}
         >
@@ -29,7 +29,7 @@ const InputsView = ({
           </div>
         </motion.div>
       )}
-      {Object.entries(inputs).map((data) => {
+      {Object.entries(outputs).map((data) => {
         const [field, _] = data;
         return (
           <motion.div
@@ -38,20 +38,20 @@ const InputsView = ({
             initial={{ scale: 0.5, opacity: 0.5 }}
             animate={{ scale: 1.0, opacity: 1.0 }}
           >
-            <InputCard dispatcher={dispatcher} data={data} />
+            <OutputCard data={data} dispatcher={dispatcher} />
           </motion.div>
         );
       })}
       <motion.div
         layout
-        key="inputField"
+        key="outputFields"
         initial={{ scale: 0.5, opacity: 0.5 }}
         animate={{ scale: 1.0, opacity: 1.0 }}
       >
-        <InputField dispatcher={dispatcher} variableExists={variableExists} />
+        <OutputField dispatcher={dispatcher} variableExists={variableExists} />
       </motion.div>
     </div>
   );
 };
 
-export default InputsView;
+export default OutputsView;

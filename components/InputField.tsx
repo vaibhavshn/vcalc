@@ -12,13 +12,13 @@ const InputField = ({
   const handleSubmit = (e: FormEvent) => {
     if (e) e.preventDefault();
 
-    const inputText = (
-      e.target as typeof e.target & {
-        inputText: { value: string; scrollIntoView: Function };
-      }
-    )['inputText'];
+    const form = e.target as typeof e.target & {
+      inputField: { value: string; scrollIntoView: Function; focus: Function };
+      inputDefault: { value: string };
+    };
 
-    const field = camelCase(inputText.value);
+    const field = camelCase(form.inputField.value);
+    const defaultValue = form.inputDefault.value;
 
     if (variableExists(field)) {
       alert(
@@ -27,28 +27,42 @@ const InputField = ({
       return;
     }
 
-    dispatcher({ type: InputActions.add, data: { [field]: '' } });
+    dispatcher({ type: InputActions.add, data: { [field]: defaultValue } });
 
-    inputText.value = '';
+    form.inputField.value = '';
+    form.inputDefault.value = '';
+    form.inputField.focus();
     setTimeout(() => {
-      inputText.scrollIntoView({ behavior: 'smooth' });
+      form.inputField.scrollIntoView({ behavior: 'smooth' });
     }, 300);
 
     return false;
   };
 
   return (
-    <form className="" onSubmit={handleSubmit}>
+    <form className="flex flex-col" onSubmit={handleSubmit}>
       <label htmlFor="inputText" className="text-xs text-gray-500">
         Add field
       </label>
-      <input
-        type="text"
-        id="inputText"
-        name="inputText"
-        placeholder="Add Field"
-        className="w-full h-10 px-3 text-sm border border-gray-200 rounded-sm"
-      />
+      <div className="flex flex-col space-y-1">
+        <input
+          type="text"
+          id="inputField"
+          name="inputField"
+          placeholder="Add Field"
+          className="w-full h-10 px-3 text-sm border border-gray-200 rounded-sm"
+        />
+        <input
+          type="text"
+          id="inputDefault"
+          name="inputDefault"
+          placeholder="Default Value"
+          className="w-full h-10 px-3 text-sm border border-gray-200 rounded-sm"
+        />
+        <button className="text-sm py-2 bg-gray-100 text-gray-600 border rounded-sm">
+          Add
+        </button>
+      </div>
     </form>
   );
 };

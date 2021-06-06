@@ -1,8 +1,7 @@
 import useCreator, { InputActions, OutputActions } from '@/hooks/creator';
-import { useEffect } from 'react';
-import { formatField } from '@/lib/format';
 
 import InputsView from '@/components/InputsView';
+import OutputsView from '@/components/OutputsView';
 
 export default function Creator() {
   const {
@@ -13,13 +12,6 @@ export default function Creator() {
     variableExists,
     formatExpression,
   } = useCreator();
-
-  useEffect(() => {
-    dispatchOutputs({
-      type: OutputActions.add,
-      data: { sum: 'a + b', difference: '1 + (a + b) / (a-b)' },
-    });
-  }, []);
 
   return (
     <div>
@@ -38,14 +30,11 @@ export default function Creator() {
           <h3 className="text-2xl font-light text-gray-800 text-center my-8">
             Outputs
           </h3>
-          <div>
-            {Object.entries(outputs).map(([field, expr]) => (
-              <div key={field}>
-                <div>{formatField(field)}</div>
-                <div>{formatExpression(expr)}</div>
-              </div>
-            ))}
-          </div>
+          <OutputsView
+            outputs={outputs}
+            dispatcher={dispatchOutputs}
+            variableExists={variableExists}
+          />
         </div>
       </div>
     </div>
