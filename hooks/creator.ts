@@ -28,6 +28,11 @@ const useCreator = () => {
     return '';
   };
 
+  const clearAll = () => {
+    dispatchInputs({ type: InputActions.clear });
+    dispatchOutputs({ type: OutputActions.clear });
+  };
+
   return {
     inputs,
     dispatchInputs,
@@ -37,6 +42,7 @@ const useCreator = () => {
     parser,
     formatExpression,
     validateExpression,
+    clearAll,
   };
 };
 

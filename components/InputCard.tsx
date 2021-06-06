@@ -2,6 +2,7 @@ import { XIcon } from '@heroicons/react/outline';
 
 import { formatField } from '@/lib/format';
 import { InputActions } from '@/hooks/inputs';
+import { startCase } from 'lodash';
 
 const InputCard = ({
   dispatcher,
@@ -14,7 +15,7 @@ const InputCard = ({
   return (
     <div className="flex flex-col w-full p-4 border shadow-sm" key={field}>
       <div className="flex items-center justify-between">
-        <div className="text-sm">{formatField(field)}</div>
+        <div className="text-sm">{startCase(field)}</div>
         <XIcon
           className="h-5 text-red-500 cursor-pointer"
           onClick={(_) =>
