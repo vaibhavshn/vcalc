@@ -15,7 +15,11 @@ const getHash = (obj: HashObject): string | null => {
 
 const getHashObject = (hash: string): HashObject | null => {
   try {
-    return JSON.parse(atob(hash));
+    const obj = JSON.parse(atob(hash));
+    if (!('inputs' in obj) && !('outputs' in obj)) {
+      return null;
+    }
+    return obj;
   } catch (_) {}
   return null;
 };

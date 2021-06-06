@@ -18,13 +18,13 @@ export default function Creator() {
     <div>
       <div className="flex items-center justify-between">
         <button
-          className="px-4 py-2 bg-gray-100 text-gray-800 rounded-md mx-auto my-6 block"
+          className="px-4 py-2 bg-gray-100 text-gray-800 rounded-md mx-auto my-6 block text-sm"
           onClick={(_) => clearAll()}
         >
           Clear All
         </button>
         <button
-          className="px-4 py-2 bg-gray-100 text-gray-800 rounded-md mx-auto my-6 block"
+          className="px-4 py-2 bg-gray-100 text-gray-800 rounded-md mx-auto my-6 block text-sm"
           onClick={(_) => {
             window.open(`/calc#${getHash({ inputs, outputs })}`, '_blank');
           }}
