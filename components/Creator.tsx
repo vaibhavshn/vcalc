@@ -37,7 +37,7 @@ export default function Creator() {
     const hash = getHash({ ...metaData, inputs, outputs });
     if (isEmpty())
       alert("The calculator fields aren't loaded properly, try again.");
-    else window.open(`/calc#${hash}`, '_blank');
+    else window.open(`/newCalc#${hash}`, '_blank');
   };
 
   return (

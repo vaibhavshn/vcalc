@@ -5,3 +5,7 @@
 body {
   @apply bg-white antialiased text-gray-700;
 }
+
+.cell {
+  @apply flex-1 p-1 border-b-2 border-r-2 border-gray-200;
+}
